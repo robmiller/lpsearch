@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/lpsearch"
+
+query = ARGV[0]
+
+if !query
+	puts "Usage: #{__FILE__} query"
+	exit
+end
+
+lp = LPSearch.new
+
+lp.search query do |task|
+	puts "#{task[:name]}\n#{task[:url]}\n\n"
+end
+
