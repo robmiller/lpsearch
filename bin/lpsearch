@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
-require_relative "../lib/lpsearch"
+require File.dirname(__FILE__) + "/../lib/lpsearch.rb"
 
 query = ARGV[0]
 
@@ -11,7 +12,21 @@ end
 
 lp = LPSearch.new
 
+puts <<EOXML
+<?xml version="1.0"?>
+<items>
+EOXML
+
 lp.search query do |task|
-	puts "#{task[:name]}\n#{task[:url]}\n\n"
+	puts <<EOXML
+	<item uid="task-#{task[:id]}" arg="#{task[:url]}" valid="yes">
+		<title>#{task[:name]}</title>
+		<subtitle>#{task[:description]}</subtitle>
+	</item>
+EOXML
 end
+
+puts <<EOXML
+</items>
+EOXML
 

@@ -1,7 +1,8 @@
+# encoding: utf-8
+
 require 'liquidplanner'
 require 'highline/import'
 require 'json'
-require 'pp'
 
 class LPSearch
 	def initialize
@@ -51,7 +52,12 @@ class LPSearch
 	def search(query)
 		tasks = @workspace.tasks(:all, :limit => 5, :filter => "name contains '#{query}'")
 		tasks.each do |task|
-			t = { :name => task.name, :url => "http://app.liquidplanner.com/space/#{@creds["space"]}/projects/show/#{task.id}" }
+			t = {
+				:name => task.name,
+				:id => task.id,
+				:description => task.description.empty? ? task.name : task.description,
+				:url => "http://app.liquidplanner.com/space/#{@creds["space"]}/projects/show/#{task.id}"
+			}
 
 			yield t
 		end
