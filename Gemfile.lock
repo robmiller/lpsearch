@@ -1,0 +1,30 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (3.0.20)
+      activesupport (= 3.0.20)
+      builder (~> 2.1.2)
+      i18n (~> 0.5.0)
+    activeresource (3.0.20)
+      activemodel (= 3.0.20)
+      activesupport (= 3.0.20)
+    activesupport (3.0.20)
+    builder (2.1.2)
+    highline (1.6.16)
+    i18n (0.5.0)
+    json (1.7.7)
+    liquidplanner (0.0.5)
+      activeresource (~> 3.0.0, >= 3.0.0)
+      activesupport (~> 3.0.0, >= 3.0.0)
+      multipart-post (~> 1.0.1, >= 1.0.1)
+    multipart-post (1.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activeresource (>= 3.0.0)
+  activesupport (= 3.0.20)
+  highline
+  json
+  liquidplanner
