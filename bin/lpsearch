@@ -6,20 +6,20 @@ require File.expand_path(File.dirname(__FILE__)) + "/../lib/lpsearch.rb"
 query = ARGV[0]
 
 if !query
-	puts "Usage: #{__FILE__} query"
-	exit
+  puts "Usage: #{__FILE__} query"
+  exit
 end
 
 def error(message)
-	message.gsub! /</, '('
-	message.gsub! />/, ')'
+  message.gsub! /</, '('
+  message.gsub! />/, ')'
 
-	puts <<EOXML
-	<item uid="error" arg="" valid="no">
-		<title>Something screwed up!</title>
-		<subtitle>#{message}</subtitle>
-	</item>
-EOXML
+  puts <<EOXML
+  <item uid="error" arg="" valid="no">
+    <title>Something screwed up!</title>
+    <subtitle>#{message}</subtitle>
+  </item>
+  EOXML
 end
 
 puts <<EOXML
@@ -28,18 +28,18 @@ puts <<EOXML
 EOXML
 
 begin
-	lp = LPSearch.new
+  lp = LPSearch.new
 
-	lp.search query do |task|
-		puts <<EOXML
-		<item uid="task-#{task[:id]}" arg="#{task[:url]}" valid="yes">
-			<title>#{task[:name]}</title>
-			<subtitle>#{task[:description]}</subtitle>
-		</item>
-EOXML
-	end
+  lp.search query do |task|
+    puts <<EOXML
+    <item uid="task-#{task[:id]}" arg="#{task[:url]}" valid="yes">
+      <title>#{task[:name]}</title>
+      <subtitle>#{task[:description]}</subtitle>
+    </item>
+    EOXML
+  end
 rescue Exception => e
-	error e.message
+  error e.message
 end
 
 puts <<EOXML
