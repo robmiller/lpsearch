@@ -7,6 +7,12 @@ require 'liquidplanner'
 require 'highline/import'
 require 'json'
 
+class NoCredentialsError < StandardError
+	def initialize
+		super "I couldn't get your LiquidPlanner credentials, so I couldn't connect to LiquidPlanner."
+	end
+end
+
 class LPSearch
 	def initialize
 		@creds = {}
@@ -17,6 +23,8 @@ class LPSearch
 		else
 			ask_credentials
 		end
+
+		raise NoCredentialsError unless @creds.length > 0
 
 		@lp = LiquidPlanner::Base.new({:email => @creds["email"], :password => @creds["pass"]})
 		@workspace = @lp.workspaces @creds["space"]
@@ -38,10 +46,7 @@ class LPSearch
 	end
 
 	def ask_credentials
-		unless stdin.tty?
-			puts "I don't have a TTY. Run me from the command line first so I can get your LP credentials."
-			exit
-		end
+		raise NoCredentialsError unless STDIN.tty?
 
 		email = ask("Email: ") { |q| q.validate = /@/ }
 		pass  = ask("Password: ") { |q| q.echo = "x" }

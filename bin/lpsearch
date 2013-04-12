@@ -10,20 +10,36 @@ if !query
 	exit
 end
 
-lp = LPSearch.new
+def error(message)
+	message.gsub! /</, '('
+	message.gsub! />/, ')'
+
+	puts <<EOXML
+	<item uid="error" arg="" valid="no">
+		<title>Something screwed up!</title>
+		<subtitle>#{message}</subtitle>
+	</item>
+EOXML
+end
 
 puts <<EOXML
 <?xml version="1.0"?>
 <items>
 EOXML
 
-lp.search query do |task|
-	puts <<EOXML
-	<item uid="task-#{task[:id]}" arg="#{task[:url]}" valid="yes">
-		<title>#{task[:name]}</title>
-		<subtitle>#{task[:description]}</subtitle>
-	</item>
+begin
+	lp = LPSearch.new
+
+	lp.search query do |task|
+		puts <<EOXML
+		<item uid="task-#{task[:id]}" arg="#{task[:url]}" valid="yes">
+			<title>#{task[:name]}</title>
+			<subtitle>#{task[:description]}</subtitle>
+		</item>
 EOXML
+	end
+rescue Exception => e
+	error e.message
 end
 
 puts <<EOXML
